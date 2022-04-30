@@ -57,18 +57,22 @@ class Snake:
             # head
             if index == 0:
                 head = self.head_right # emoty surface
-                if self.direction.x == 1:
+                # !! shouldn't use direction since direction and graphics are updated every 1/60s 
+                # and snake only move every 150ms
+                # if use direction can cause choppy animation
+                if head_vect.x == 1:
+                head_vect = self.body[0] - self.body[1] 
                     head = self.head_right
-                elif self.direction.x == -1:
+                elif head_vect.x == -1:
                     head = self.head_left 
-                elif self.direction.y == 1:
+                elif head_vect.y == 1:
                     head = self.head_down
-                elif self.direction.y == -1:
+                elif head_vect.y == -1:
                     head = self.head_up
                 screen.blit(head, block_rect)
             # tail
             elif index == len(self.body) - 1:
-                tail = None
+                tail = self.tail_left
                 tail_vect = self.body[-1] - self.body[-2] # tail vector
                 if tail_vect.x == 1:
                     tail = self.tail_right
@@ -81,7 +85,7 @@ class Snake:
                 screen.blit(tail, block_rect)
             # the rest of the body
             else:
-                block_sur = None
+                block_sur = self.body_horizontal
                 # vector from prev block (smaller index, close to head) to curr block
                 prev_vect = block - self.body[index - 1]
                 # vector from curr to next block(bigger index, close to tail)
@@ -242,7 +246,7 @@ while True:
                 main_game.snake.direction = Vector2(1, 0)
             if event.key == pygame.K_LEFT and main_game.snake.direction.x != 1:
                 main_game.snake.direction = Vector2(-1, 0)
-            
+                       
     screen.fill((175, 215, 70))
     main_game.draw()
     pygame.display.update()
