@@ -60,8 +60,8 @@ class Snake:
                 # !! shouldn't use direction since direction and graphics are updated every 1/60s 
                 # and snake only move every 150ms
                 # if use direction can cause choppy animation
-                if head_vect.x == 1:
                 head_vect = self.body[0] - self.body[1] 
+                if head_vect.x == 1:
                     head = self.head_right
                 elif head_vect.x == -1:
                     head = self.head_left 
